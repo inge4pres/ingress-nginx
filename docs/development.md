@@ -137,15 +137,30 @@ $ cd $GOPATH/src/k8s.io/ingress-nginx
 $ make e2e-test
 ```
 
-To run unit-tests for lua code locally, run:
+#### Lua balancer
+
+Some dependencies are needed for the Lua balancer:
+
+* [openresty](https://openresty.org/en/download.html) need to be available in `$PATH` as a `resty` binary
+* [busted](http://olivinelabs.com/busted/) for unit testing
+* [luacheck](https://github.com/mpeterv/luacheck) for static code analysis
+
+To run unit-tests for lua code locally you can either have the Lua runtime and dependencies installed or use the e2e image: build and start a container out of it
+
+```console
+REGISTRY=nginx-ingress-controller TAG=lua make -C images/e2e docker-build
+docker run --rm -ti --user root --entrypoint /bin/bash -v $(pwd):/go/src/k8s.io/ingress-nginx nginx-ingress-controller/e2e:lua
+```
+
+then inside the container
 
 ```console
 $ cd $GOPATH/src/k8s.io/ingress-nginx
-$ ./rootfs/etc/nginx/lua/test/up.sh
 $ make lua-test
 ```
 
-Lua tests are located in `$GOPATH/src/k8s.io/ingress-nginx/rootfs/etc/nginx/lua/test`. When creating a new test file it must follow the naming convention `<mytest>_test.lua` or it will be ignored. 
+Lua tests are located in `$GOPATH/src/k8s.io/ingress-nginx/rootfs/etc/nginx/lua/test`. 
+When creating a new test file it must follow the naming convention `<mytest>_test.lua` or it will be ignored. 
 
 ## Releasing
 
