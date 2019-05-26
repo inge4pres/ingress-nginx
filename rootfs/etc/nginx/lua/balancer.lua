@@ -121,9 +121,6 @@ local function sync_backends()
     return
   end
 
-  -- TODO shuffle list of backends here?
-  -- might be good to randomize for ever backend sync
-  -- in the end the round_robin impl is the only affected
   local balancers_to_keep = {}
   for _, new_backend in ipairs(new_backends) do
     sync_backend(new_backend)

@@ -87,16 +87,4 @@ local function replace_special_char(str, a, b)
 end
 _M.replace_special_char = replace_special_char
 
--- Fisher-Yates shuffle on table
--- https://gist.github.com/Uradamus/10323382#gistcomment-2754684
-local function shuffle(nodes)
-  for i = #nodes, 2, -1 do
-    local j = math.random(i)
-    nodes[i], nodes[j] = nodes[j], nodes[i]
-  end
-
-  return nodes
-end
-_M.shuffle = shuffle
-
 return _M

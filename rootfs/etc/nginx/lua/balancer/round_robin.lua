@@ -5,11 +5,9 @@ local util = require("util")
 local _M = balancer_resty:new({ factory = resty_roundrobin, name = "round_robin" })
 
 function _M.new(self, backend)
-  -- TODO need to shuffle nodes here as it's passed to sync_backend
   local nodes = util.get_nodes(backend.endpoints)
-  local shuffled = util.shuffle(nodes)
   local o = {
-    instance = self.factory:new(shuffled),
+    instance = self.factory:new(nodes, backend.randomizeRoundRobin),
     traffic_shaping_policy = backend.trafficShapingPolicy,
     alternative_backends = backend.alternativeBackends,
   }
